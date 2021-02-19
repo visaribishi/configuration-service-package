@@ -18,12 +18,6 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-//        .target(
-//            name: "configurationService",
-//            dependencies: ["configurationService"]),
-        .binaryTarget(
-            name: "configurationService",
-            url: "https://gitlab.openresearch.com/visaribishi/configurationservice/-/raw/master/configurationService-1.0.0.zip",
-            checksum: "f31bb2b83d923a0322e479b324d75d92d056b3633c18d5b17cfe8d6ccf5d9c26")
+        .binaryTarget(name: "configurationService", path: "./configurationService.xcframework")
     ]
 )
