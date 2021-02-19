@@ -23,7 +23,7 @@ let package = Package(
 //            dependencies: ["configurationService"]),
         .binaryTarget(
             name: "configurationService",
-            url: "https://github.com/visaribishi/configurationService/releases/download/1.1.0/configurationService-1.0.0.zip",
+            url: "https://gitlab.openresearch.com/visaribishi/configurationservice/-/raw/master/configurationService-1.0.0.zip",
             checksum: "f31bb2b83d923a0322e479b324d75d92d056b3633c18d5b17cfe8d6ccf5d9c26")
     ]
 )
