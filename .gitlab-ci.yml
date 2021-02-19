@@ -1,0 +1,42 @@
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+stages:
+  - deploy
+
+#############################################################################
+# Common Build
+
+.build-macos:
+  before_script:
+    - git submodule sync --recursive
+    - git submodule foreach --recursive git fetch
+    - git submodule update --init --recursive
+    - export LC_ALL=en_US.UTF-8
+    - export LANG=en_US.UTF-8
+    - export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:/usr/local/opt/ruby/bin:$PATH"
+    - gem install bundler --force
+
+#############################################################################
+# Deploy keys
+
+deply:
+  extends: .build-macos
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: always
+    - when: never
+  tags:
+    - ios
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan gitlab.openresearch.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
